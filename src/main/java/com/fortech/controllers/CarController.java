@@ -1,7 +1,7 @@
 package com.fortech.controllers;
 
 import com.fortech.models.Car;
-import com.fortech.repository.CarRepository;
+import com.fortech.services.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import java.util.Optional;
 public class CarController {
 
     @Autowired
-    CarRepository carRepository;
+    CarService carService;
 
     @GetMapping("/cars")
     public ResponseEntity<List<Car>> getAllCars(@RequestParam(required = false) String manufacturer) {
@@ -25,9 +25,9 @@ public class CarController {
             List<Car> cars = new ArrayList<Car>();
 
             if(manufacturer==null) {
-                carRepository.findAll().forEach(cars::add);
+                cars = carService.findAll();
             }else{
-                carRepository.findByManufacturerContaining(manufacturer).forEach(cars::add);
+                cars = carService.findByManufacturer(manufacturer);
             }
 
             if (cars.isEmpty()) {
@@ -42,13 +42,9 @@ public class CarController {
 
     @GetMapping("/cars/{id}")
     public ResponseEntity<Car> getCarById(@PathVariable("id") String id) {
-        Optional<Car> carData = carRepository.findById(id);
+        Optional<Car> carData = carService.findById(id);
 
-        if (carData.isPresent()) {
-            return new ResponseEntity<>(carData.get(), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return carData.map(car -> new ResponseEntity<>(car, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PostMapping("/cars")
