@@ -31,10 +31,6 @@ public class CarController {
                 cars = carService.findByManufacturer(manufacturer);
             }
 
-            if (cars.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
             return new ResponseEntity<>(cars, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
