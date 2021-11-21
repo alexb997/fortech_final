@@ -56,8 +56,7 @@ public class CarControllerTest {
     public void createCarTest() throws Exception {
         Car mockCar = new Car("11xSS", "Ferrari");
 
-        Mockito.when(
-                carService.addNewCar(Mockito.any(Car.class))).thenReturn(mockCar);
+        Mockito.when(carService.addNewCar(Mockito.any(Car.class))).thenReturn(mockCar);
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/api/cars")
@@ -65,10 +64,23 @@ public class CarControllerTest {
                 .contentType(MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-
         MockHttpServletResponse response = result.getResponse();
-
         assertEquals(HttpStatus.CREATED.value(), response.getStatus());
-
     }
+
+    @Test
+    public void deleteCarTest() throws Exception {
+        Car mockCar = new Car("11xSS", "Ferrari");
+
+        Mockito.when(carService.removeCarById(Mockito.anyString()));
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete(
+                "/api/cars/61990f826a5e1f48302ef8d7").accept(
+                MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        assertEquals(HttpStatus.OK,response.getStatus());
+    }
+
 }
