@@ -15,10 +15,9 @@ public class Car {
 
     public Car(){}
 
-    public Car(String plate,String manufacturer, boolean assured) {
+    public Car(String plate,String manufacturer) {
         this.plate = plate;
         this.manufacturer = manufacturer;
-        this.assured = assured;
     }
 
     public String getId() {

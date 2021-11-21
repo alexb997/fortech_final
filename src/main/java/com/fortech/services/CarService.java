@@ -33,7 +33,7 @@ public class CarService {
     }
 
     public Car addNewCar(Car car){
-        return carRepository.save(new Car(car.getPlate(),car.getManufacturer(),false));
+        return carRepository.save(new Car(car.getPlate(),car.getManufacturer()));
     }
 
     public Car updateCar(Car car){

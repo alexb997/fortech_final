@@ -1,49 +1,50 @@
 package com.fortech.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fortech.models.Car;
-import com.fortech.repository.CarRepository;
+import com.fortech.services.CarService;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.hamcrest.Matchers.*;
-
-@WebMvcTest(CarController.class)
+@RunWith(SpringRunner.class)
+@WebMvcTest(value = CarController.class)
+@WithMockUser
 public class CarControllerTest {
     @Autowired
-    MockMvc mockMvc;
-    @Autowired
-    ObjectMapper mapper;
+    private MockMvc mockMvc;
 
     @MockBean
-    CarRepository carRepository;
+    private CarService carService;
 
-    Car car1 = new Car("14x25","Toyota",true);
-    Car car2 = new Car("15xTY","Volvo",true);
-    Car car3 = new Car("16xYR","Toyota",true);
+    Car mockCar = new Car("21xAT","Toyota");
+
+    String exampleCourseJson = "{\"plate\":\"21xAT\",\"manufacturer\":\"Toyota\",\"assured\":\"false\"}";
 
     @Test
-    public void getAllCars_success() throws Exception {
-        List<Car> records = new ArrayList<>(Arrays.asList(car1, car2, car3));
+    public void getCarById() throws Exception {
+        Mockito.when(
+                carService.findById(Mockito.anyString())).thenReturn(java.util.Optional.of(mockCar));
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get(
+                "/api/cars/61990f826a5e1f48302ef8d7").accept(
+                MediaType.APPLICATION_JSON);
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
 
-        Mockito.when(carRepository.findAll()).thenReturn(records);
+        System.out.println(result.getResponse());
+        String expected = "{plate:21xAT,manufacturer:Toyota,assured:false}";
 
-        mockMvc.perform(MockMvcRequestBuilders
-                        .get("/cars")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$", hasSize(3)))
-                .andExpect(jsonPath("$[2].plate", is("15xTY")));
+        JSONAssert.assertEquals(expected, result.getResponse()
+                .getContentAsString(), false);
     }
 }
