@@ -34,7 +34,7 @@ public class CarControllerTest {
 
     Car mockCar = new Car("21xAT","Toyota");
 
-    String exampleCourseJson = "{\"plate\":\"21xAT\",\"manufacturer\":\"Toyota\",\"assured\":\"false\"}";
+    String exampleCarJson = "{\"plate\":\"21xAT\",\"manufacturer\":\"Toyota\",\"assured\":\"false\"}";
 
     @Test
     public void getCarByIdTest() throws Exception {
@@ -60,7 +60,7 @@ public class CarControllerTest {
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/api/cars")
-                .accept(MediaType.APPLICATION_JSON).content(exampleCourseJson)
+                .accept(MediaType.APPLICATION_JSON).content(exampleCarJson)
                 .contentType(MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
@@ -68,35 +68,38 @@ public class CarControllerTest {
         assertEquals(HttpStatus.CREATED.value(), response.getStatus());
     }
 
+//    @Test
+//    public void deleteCarTest() throws Exception {
+//        Car mockCar = new Car("11xSS", "Ferrari");
+//
+//        Mockito.when(carService.removeCarById(Mockito.anyString())).thenReturn();
+//
+//        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete(
+//                "/api/cars/61990f826a5e1f48302ef8d7").accept(
+//                MediaType.APPLICATION_JSON);
+//
+//        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+//        MockHttpServletResponse response = result.getResponse();
+//        assertEquals(HttpStatus.OK,response.getStatus());
+//    }
+
     @Test
-    public void deleteCarTest() throws Exception {
-        Car mockCar = new Car("11xSS", "Ferrari");
-
-        Mockito.when(carService.removeCarById(Mockito.anyString())).thenReturn();
-
-        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete(
-                "/api/cars/61990f826a5e1f48302ef8d7").accept(
-                MediaType.APPLICATION_JSON);
-
-        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-        MockHttpServletResponse response = result.getResponse();
-        assertEquals(HttpStatus.OK,response.getStatus());
-    }
-
-    @Test
-    public void updateCartTest() throws Exception {
+    public void updateCarTest() throws Exception {
         Car mockCar = new Car("11xXT", "Dacia");
+        Car mockCarUpdated = new Car("12xXT","Dacia");
+        mockCarUpdated.setAssured(true);
+        String mockStringCarUpdated ="{\"plate\":\"12xXT\",\"manufacturer\":\"Dacia\",\"assured\":\"true\"}";
 
         Mockito.when(carService.findById(Mockito.anyString())).thenReturn(java.util.Optional.of(mockCar));
-        Mockito.when(carService.updateCar(Mockito.any(Car.class))).thenReturn(mockCar);
+        Mockito.when(carService.updateCar(Mockito.any(Car.class))).thenReturn(mockCarUpdated);
 
-        RequestBuilder requestBuilderPut = MockMvcRequestBuilders
-                .put("/api/cars/61990f826a5e1f48302ef8d7")
-                .accept(MediaType.APPLICATION_JSON).content(exampleCourseJson)
-                .contentType(MediaType.APPLICATION_JSON);
         RequestBuilder requestBuilderGet = MockMvcRequestBuilders.get(
                 "/api/cars/61990f826a5e1f48302ef8d7").accept(
                 MediaType.APPLICATION_JSON);
+        RequestBuilder requestBuilderPut = MockMvcRequestBuilders
+                .put("/api/cars/61990f826a5e1f48302ef8d7")
+                .accept(MediaType.APPLICATION_JSON).content(mockStringCarUpdated)
+                .contentType(MediaType.APPLICATION_JSON);
 
         MvcResult resultGet = mockMvc.perform(requestBuilderGet).andReturn();
         System.out.println(resultGet.getResponse());
@@ -104,8 +107,8 @@ public class CarControllerTest {
         JSONAssert.assertEquals(expected, resultGet.getResponse()
                 .getContentAsString(), false);
 
-        MvcResult resultPut = mockMvc.perform(requestBuilderGet).andReturn();
-        MockHttpServletResponse response = resultPut.getResponse();
-        assertEquals(HttpStatus.CREATED.value(), response.getStatus());
+        MvcResult resultPut = mockMvc.perform(requestBuilderPut).andReturn();
+        JSONAssert.assertEquals(mockStringCarUpdated, resultPut.getResponse()
+                .getContentAsString(),false);
     }
 }
