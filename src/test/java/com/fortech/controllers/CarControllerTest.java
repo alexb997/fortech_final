@@ -72,7 +72,7 @@ public class CarControllerTest {
     public void deleteCarTest() throws Exception {
         Car mockCar = new Car("11xSS", "Ferrari");
 
-        Mockito.when(carService.removeCarById(Mockito.anyString()));
+        Mockito.when(carService.removeCarById(Mockito.anyString())).thenReturn();
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.delete(
                 "/api/cars/61990f826a5e1f48302ef8d7").accept(
@@ -83,4 +83,29 @@ public class CarControllerTest {
         assertEquals(HttpStatus.OK,response.getStatus());
     }
 
+    @Test
+    public void updateCartTest() throws Exception {
+        Car mockCar = new Car("11xXT", "Dacia");
+
+        Mockito.when(carService.findById(Mockito.anyString())).thenReturn(java.util.Optional.of(mockCar));
+        Mockito.when(carService.updateCar(Mockito.any(Car.class))).thenReturn(mockCar);
+
+        RequestBuilder requestBuilderPut = MockMvcRequestBuilders
+                .put("/api/cars/61990f826a5e1f48302ef8d7")
+                .accept(MediaType.APPLICATION_JSON).content(exampleCourseJson)
+                .contentType(MediaType.APPLICATION_JSON);
+        RequestBuilder requestBuilderGet = MockMvcRequestBuilders.get(
+                "/api/cars/61990f826a5e1f48302ef8d7").accept(
+                MediaType.APPLICATION_JSON);
+
+        MvcResult resultGet = mockMvc.perform(requestBuilderGet).andReturn();
+        System.out.println(resultGet.getResponse());
+        String expected = "{plate:11xXT,manufacturer:Dacia,assured:false}";
+        JSONAssert.assertEquals(expected, resultGet.getResponse()
+                .getContentAsString(), false);
+
+        MvcResult resultPut = mockMvc.perform(requestBuilderGet).andReturn();
+        MockHttpServletResponse response = resultPut.getResponse();
+        assertEquals(HttpStatus.CREATED.value(), response.getStatus());
+    }
 }
