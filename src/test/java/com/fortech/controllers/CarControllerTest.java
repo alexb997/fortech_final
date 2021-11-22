@@ -108,7 +108,8 @@ public class CarControllerTest {
                 .getContentAsString(), false);
 
         MvcResult resultPut = mockMvc.perform(requestBuilderPut).andReturn();
-        JSONAssert.assertEquals(mockStringCarUpdated, resultPut.getResponse()
+        String expectedUpdate = "{plate:12xXT,manufacturer:Dacia,assured:true}";
+        JSONAssert.assertEquals(expectedUpdate, resultPut.getResponse()
                 .getContentAsString(),false);
     }
 }
