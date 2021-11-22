@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -68,20 +69,21 @@ public class CarControllerTest {
         assertEquals(HttpStatus.CREATED.value(), response.getStatus());
     }
 
-//    @Test
-//    public void deleteCarTest() throws Exception {
-//        Car mockCar = new Car("11xSS", "Ferrari");
-//
-//        Mockito.when(carService.removeCarById(Mockito.anyString())).thenReturn();
-//
-//        RequestBuilder requestBuilder = MockMvcRequestBuilders.delete(
-//                "/api/cars/61990f826a5e1f48302ef8d7").accept(
-//                MediaType.APPLICATION_JSON);
-//
-//        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
-//        MockHttpServletResponse response = result.getResponse();
-//        assertEquals(HttpStatus.OK,response.getStatus());
-//    }
+    @Test
+    public void deleteCarTest() throws Exception {
+        Car mockCar = new Car("11xSS", "Ferrari");
+
+        Mockito.when(carService.findById(Mockito.anyString()))
+                .thenReturn(java.util.Optional.of(mockCar));
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .delete("/api/cars/61990f826a5e1f48302ef8d7")
+                .contentType(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        MockHttpServletResponse response = result.getResponse();
+        System.out.println("HERE!!!!!!!!-"+ response);
+        assertEquals(204,response.getStatus());
+    }
 
     @Test
     public void updateCarTest() throws Exception {
