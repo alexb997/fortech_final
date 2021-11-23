@@ -24,19 +24,13 @@ public class CarController {
     public ResponseEntity<List<Car>> getAllCars(@RequestParam(required = false) String manufacturer) {
         try {
             List<Car> cars;
-            System.out.println("Calling getAll");
-//            if(manufacturer==null) {
-//                cars = carService.findAll();
-//                if(cars.isEmpty())
-//                    System.out.println("Empty");
-//                cars.forEach(car -> System.out.println("1"));
-            cars=carService.findByManufacturer("Toyota");
-//            }else{
-//                cars = carService.findByManufacturer(manufacturer);
-//
-//                cars.forEach(car -> System.out.println("1"));
-//            }
-
+            if(manufacturer==null) {
+                System.out.println("Calling getAll");
+                cars = carService.findAll();
+            }else{
+                System.out.println("Calling getByManufacturer: " + manufacturer);
+                cars = carService.findByManufacturer(manufacturer);
+            }
             return new ResponseEntity<>(cars, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

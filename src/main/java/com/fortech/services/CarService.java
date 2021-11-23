@@ -4,7 +4,6 @@ import com.fortech.models.Car;
 import com.fortech.repository.CarRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,14 +17,10 @@ public class CarService {
     }
 
     public List<Car> findAll(){
-        List<Car> cars = new ArrayList<>();
-        carRepository.findAll().addAll(cars);
-        return cars;
+        return carRepository.findAll();
     }
     public List<Car> findByManufacturer(String manufacturer){
-        List<Car> cars = new ArrayList<>();
-        carRepository.findByManufacturerContaining(manufacturer).addAll(cars);
-        return cars;
+        return carRepository.findByManufacturerContaining(manufacturer);
     }
 
     public Optional<Car> findById(String id){
