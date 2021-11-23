@@ -32,8 +32,12 @@ public class CarService {
         return carRepository.findById(id);
     }
 
-    public Car addNewCar(Car car){
-        return carRepository.save(new Car(car.getPlate(),car.getManufacturer()));
+    public Car addNewCar(Car car) throws IllegalArgumentException{
+        if(car.getPlate() != null && !car.getPlate().isEmpty()
+                && car.getManufacturer() != null && !car.getManufacturer().isEmpty()) {
+            return carRepository.save(new Car(car.getPlate(), car.getManufacturer()));
+        }
+        throw new IllegalArgumentException("Invalid values for Car properties");
     }
 
     public Car updateCar(Car car){

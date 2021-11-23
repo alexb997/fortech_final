@@ -24,12 +24,18 @@ public class CarController {
     public ResponseEntity<List<Car>> getAllCars(@RequestParam(required = false) String manufacturer) {
         try {
             List<Car> cars;
-
-            if(manufacturer==null) {
-                cars = carService.findAll();
-            }else{
-                cars = carService.findByManufacturer(manufacturer);
-            }
+            System.out.println("Calling getAll");
+//            if(manufacturer==null) {
+//                cars = carService.findAll();
+//                if(cars.isEmpty())
+//                    System.out.println("Empty");
+//                cars.forEach(car -> System.out.println("1"));
+            cars=carService.findByManufacturer("Toyota");
+//            }else{
+//                cars = carService.findByManufacturer(manufacturer);
+//
+//                cars.forEach(car -> System.out.println("1"));
+//            }
 
             return new ResponseEntity<>(cars, HttpStatus.OK);
         } catch (Exception e) {
@@ -49,6 +55,9 @@ public class CarController {
         try {
             Car newCar = carService.addNewCar(car);
             return new ResponseEntity<>(newCar, HttpStatus.CREATED);
+        }catch (IllegalArgumentException e){
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
