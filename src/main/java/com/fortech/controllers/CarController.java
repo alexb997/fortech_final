@@ -2,6 +2,7 @@ package com.fortech.controllers;
 
 import com.fortech.models.Car;
 import com.fortech.services.CarService;
+import com.sun.org.apache.xerces.internal.xs.datatypes.ObjectList;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api")
 public class CarController {
@@ -21,7 +22,7 @@ public class CarController {
     }
 
     @GetMapping("/cars")
-    public ResponseEntity<List<Car>> getAllCars(@RequestParam(required = false) String manufacturer) {
+    public List<Car> getAllCars(@RequestParam(required = false) String manufacturer) {
         try {
             List<Car> cars;
             if(manufacturer==null) {
@@ -31,9 +32,9 @@ public class CarController {
                 System.out.println("Calling getByManufacturer: " + manufacturer);
                 cars = carService.findByManufacturer(manufacturer);
             }
-            return new ResponseEntity<>(cars, HttpStatus.OK);
+            return cars;
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new IllegalArgumentException();
         }
     }
 
