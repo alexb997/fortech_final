@@ -21,7 +21,7 @@ public class CarController {
     }
 
     @GetMapping("/cars")
-    public List<Car> getAllCars(@RequestParam(required = false) String manufacturer) {
+    public ResponseEntity<List<Car>> getAllCars(@RequestParam(required = false) String manufacturer) {
         try {
             List<Car> cars;
             if(manufacturer==null) {
@@ -29,7 +29,7 @@ public class CarController {
             }else{
                 cars = carService.findByManufacturer(manufacturer);
             }
-            return cars;
+            return new ResponseEntity<>(cars,HttpStatus.OK);
         } catch (Exception e) {
             //Gandeste mesaj, clientul nu trebuie sa stie probleme la db
             throw new IllegalArgumentException("No cars found");
