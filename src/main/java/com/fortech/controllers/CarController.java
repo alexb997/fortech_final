@@ -32,7 +32,7 @@ public class CarController {
             return new ResponseEntity<>(cars,HttpStatus.OK);
         } catch (Exception e) {
             //Gandeste mesaj, clientul nu trebuie sa stie probleme la db
-            throw new IllegalArgumentException("No cars found");
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.fortech.controllers;
 
+import com.fortech.models.Car;
 import com.fortech.models.Client;
 import com.fortech.services.ClientService;
 import org.springframework.http.HttpStatus;
@@ -21,13 +22,13 @@ public class ClientController {
     }
 
     @GetMapping("/clients")
-    public List<Client> getAllClients() {
+    public ResponseEntity<List<Client>> getAllClients() {
         try {
             List<Client> clients;
             clients = clientService.findAll();
-            return clients;
+            return new ResponseEntity<>(clients,HttpStatus.OK);
         } catch (Exception e) {
-            throw new IllegalArgumentException("No clients found");
+            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
