@@ -5,6 +5,8 @@ import com.fortech.services.CarService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,7 +16,9 @@ import java.util.Optional;
 @RequestMapping("/cars")
 public class CarController {
 
-    final CarService carService;
+    final private CarService carService;
+
+    private static final Logger LOGGER=LoggerFactory.getLogger(CarController.class);
 
     public CarController(CarService carService) {
         this.carService = carService;
@@ -31,7 +35,7 @@ public class CarController {
             }
             return new ResponseEntity<>(cars,HttpStatus.OK);
         } catch (Exception e) {
-            //Gandeste mesaj, clientul nu trebuie sa stie probleme la db
+            LOGGER.info("Cars not found!",e);
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -39,7 +43,6 @@ public class CarController {
     @GetMapping("/cars/{id}")
     public ResponseEntity<Car> getCarById(@PathVariable("id") String id) {
         Optional<Car> carData = carService.findById(id);
-
         return carData.map(car -> new ResponseEntity<>(car, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
@@ -53,6 +56,7 @@ public class CarController {
             }
             return new ResponseEntity<>(newCar, HttpStatus.CREATED);
         } catch (Exception e) {
+            LOGGER.info("Couldn't create car!",e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -78,6 +82,7 @@ public class CarController {
             carService.removeCarById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
+            LOGGER.info("Car removal didn't work",e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -88,6 +93,7 @@ public class CarController {
             carService.removeAllCars();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
+            LOGGER.info("Cars removal didn't work",e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -96,12 +102,12 @@ public class CarController {
     public ResponseEntity<List<Car>> findByAssured(@RequestParam boolean assured) {
         try {
             List<Car> cars = carService.findByAssurance(assured);
-
             if (cars.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
             return new ResponseEntity<>(cars, HttpStatus.OK);
         } catch (Exception e) {
+            LOGGER.info("Couldn't find searched cars",e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
