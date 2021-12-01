@@ -10,7 +10,7 @@ import java.util.Optional;
 @Service
 public class CarService {
 
-    final CarRepository carRepository;
+    final private CarRepository carRepository;
 
     public CarService(CarRepository carRepository) {
         this.carRepository = carRepository;
@@ -28,11 +28,7 @@ public class CarService {
     }
 
     public Car addNewCar(Car car) throws IllegalArgumentException{
-        if(car.getPlate() != null && !car.getPlate().isEmpty()
-                && car.getManufacturer() != null && !car.getManufacturer().isEmpty()) {
-            return carRepository.save(new Car(car.getPlate(), car.getManufacturer()));
-        }
-        throw new IllegalArgumentException("Invalid values for Car properties");
+        return carRepository.save(car);
     }
 
     public Car updateCar(Car car){

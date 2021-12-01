@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Service
 public class ClientService {
-    final ClientRepository clientRepository;
+    final private ClientRepository clientRepository;
 
     public ClientService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
@@ -24,10 +24,7 @@ public class ClientService {
     }
 
     public Client addNewClient(Client client) throws IllegalArgumentException{
-        if(client.getUsername() != null && !client.getUsername().isEmpty()) {
-            return clientRepository.save(new Client(client.getUsername()));
-        }
-        throw new IllegalArgumentException("Invalid values for Client properties");
+        return clientRepository.save(new Client(client.getUsername()));
     }
 
     public Client updateClient(Client client){

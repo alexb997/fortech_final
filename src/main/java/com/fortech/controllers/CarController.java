@@ -2,7 +2,6 @@ package com.fortech.controllers;
 
 import com.fortech.models.Car;
 import com.fortech.services.CarService;
-import com.sun.org.apache.xerces.internal.xs.datatypes.ObjectList;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,15 +25,14 @@ public class CarController {
         try {
             List<Car> cars;
             if(manufacturer==null) {
-                System.out.println("Calling getAll");
                 cars = carService.findAll();
             }else{
-                System.out.println("Calling getByManufacturer: " + manufacturer);
                 cars = carService.findByManufacturer(manufacturer);
             }
             return cars;
         } catch (Exception e) {
-            throw new IllegalArgumentException();
+            //Gandeste mesaj, clientul nu trebuie sa stie probleme la db
+            throw new IllegalArgumentException("No cars found");
         }
     }
 
@@ -49,10 +47,11 @@ public class CarController {
     public ResponseEntity<Car> createCar(@RequestBody Car car) {
         try {
             Car newCar = carService.addNewCar(car);
+            if(car.getPlate() != null && !car.getPlate().isEmpty()
+                    && car.getManufacturer() != null && !car.getManufacturer().isEmpty()) {
+                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            }
             return new ResponseEntity<>(newCar, HttpStatus.CREATED);
-        }catch (IllegalArgumentException e){
-            System.out.println(e.getMessage());
-            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

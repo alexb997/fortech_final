@@ -24,11 +24,10 @@ public class ClientController {
     public List<Client> getAllClients() {
         try {
             List<Client> clients;
-            System.out.println("Calling getAll Clients");
             clients = clientService.findAll();
             return clients;
         } catch (Exception e) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("No clients found");
         }
     }
 
