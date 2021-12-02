@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000/clients")
 @RestController
 @RequestMapping("/clients")
 public class ClientController {
@@ -63,7 +63,7 @@ public class ClientController {
 
         if (clientData.isPresent()) {
             Client newClient = clientData.get();
-            newClient.setUsername(client.getCarID());
+            newClient.setUsername(client.getUsername());
             newClient.setCarID(client.getCarID());
             return new ResponseEntity<>(clientService.updateClient(newClient), HttpStatus.OK);
         } else {
