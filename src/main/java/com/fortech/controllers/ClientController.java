@@ -19,7 +19,7 @@ public class ClientController {
 
     final ClientService clientService;
 
-    private static final Logger LOGGER= LoggerFactory.getLogger(CarController.class);
+    private static final Logger LOGGER= LoggerFactory.getLogger(ClientController.class);
 
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
