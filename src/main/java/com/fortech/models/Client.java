@@ -3,6 +3,8 @@ package com.fortech.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document(collection = "clients")
 public class Client {
 
@@ -10,7 +12,7 @@ public class Client {
     private String id;
 
     private String username;
-    private String carID;
+    private List<Car> ownedCars;
 
     public Client(){}
 
@@ -18,9 +20,9 @@ public class Client {
         this.username = username;
     }
 
-    public Client(String username, String carID) {
+    public Client(String username, List<Car> ownedCars) {
         this.username = username;
-        this.carID = carID;
+        this.ownedCars = ownedCars;
     }
 
     public String getId() {
@@ -35,18 +37,18 @@ public class Client {
         this.username = username;
     }
 
-    public String getCarID() {
-        return carID;
+    public List<Car> getOwnedCars() {
+        return ownedCars;
     }
 
-    public void setCarID(String carID) {
-        this.carID = carID;
+    public void setOwnedCars(List<Car> ownedCars) {
+        this.ownedCars = ownedCars;
     }
 
     @Override
     public String toString() {
         return "ID:"+ id +'\'' +
                 "This client "+ username +
-                " owns the car with ID: " + carID;
+                " owns the cars " + ownedCars;
     }
 }

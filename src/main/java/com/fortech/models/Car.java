@@ -10,7 +10,6 @@ public class Car {
     private String id;
 
     private String plate;
-    private boolean assured;
     private String manufacturer;
 
     public Car(){}
@@ -32,14 +31,6 @@ public class Car {
         this.plate = plate;
     }
 
-    public boolean isAssured() {
-        return assured;
-    }
-
-    public void setAssured(boolean assured) {
-        this.assured = assured;
-    }
-
     public String getManufacturer() {
         return manufacturer;
     }
@@ -52,7 +43,6 @@ public class Car {
     public String toString() {
         return "ID:"+ id +'\'' +
                 "The car with plate number " + plate +
-                ", manufactured by " + manufacturer +
-                (assured ? " is assured!": "is not assured!");
+                ", manufactured by " + manufacturer;
     }
 }

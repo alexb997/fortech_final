@@ -1,5 +1,6 @@
 package com.fortech.controllers;
 
+import com.fortech.models.Car;
 import com.fortech.models.Client;
 import com.fortech.services.ClientService;
 import org.junit.jupiter.api.Test;
@@ -19,9 +20,12 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-
+//TO BE EDITED ON NEW SCHEMA
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = ClientController.class)
 @WithMockUser
@@ -32,7 +36,12 @@ public class ClientControllerTest {
     @MockBean
     private ClientService clientService;
 
-    Client mockClient = new Client("Jack","aaaa");
+    Car car1 = new Car("21xAT","Toyota");
+    Car car2 = new Car( "22xXT","Dacia");
+
+    List<Car> cars= new ArrayList<>();
+
+    Client mockClient = new Client("Jack", cars);
 
     String exampleClientJson = "{\"username\":\"Jack\",\"CarId\":\"aaaa\"}";
 

@@ -64,7 +64,7 @@ public class ClientController {
         if (clientData.isPresent()) {
             Client newClient = clientData.get();
             newClient.setUsername(client.getUsername());
-            newClient.setCarID(client.getCarID());
+            newClient.setOwnedCars(client.getOwnedCars());
             return new ResponseEntity<>(clientService.updateClient(newClient), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
