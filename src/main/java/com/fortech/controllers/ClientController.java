@@ -1,6 +1,8 @@
 package com.fortech.controllers;
 
-import com.fortech.models.Car;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import com.fortech.models.Client;
 import com.fortech.services.ClientService;
 import org.slf4j.Logger;
@@ -9,8 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @CrossOrigin(origins = "http://localhost:3000/")
 @RestController
@@ -26,14 +27,33 @@ public class ClientController {
     }
 
     @GetMapping("/clients")
-    public ResponseEntity<List<Client>> getAllClients() {
+    public ResponseEntity<Map<String, Object>> getAllClients(
+            @RequestParam(required = false) String username,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "3") int size
+    ) {
         try {
             List<Client> clients;
-            clients = clientService.findAll();
-            return new ResponseEntity<>(clients,HttpStatus.OK);
+            Pageable paging = PageRequest.of(page, size);
+
+            Page<Client> pageClients;
+            if(username==null){
+                pageClients = clientService.findAll(paging);
+            }else{
+                pageClients = clientService.findByUsername(username,paging);
+            }
+            clients = pageClients.getContent();
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("clients", clients);
+            response.put("currentPage", pageClients.getNumber());
+            response.put("totalItems", pageClients.getTotalElements());
+            response.put("totalPages", pageClients.getTotalPages());
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.info("Couldn't find clients ", e);
-            return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

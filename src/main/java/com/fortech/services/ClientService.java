@@ -3,6 +3,8 @@ package com.fortech.services;
 import com.fortech.models.Client;
 import com.fortech.repository.ClientRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.Optional;
@@ -15,8 +17,8 @@ public class ClientService {
         this.clientRepository = clientRepository;
     }
 
-    public List<Client> findAll(){
-        return clientRepository.findAll();
+    public Page<Client> findAll( Pageable pageable){
+        return clientRepository.findAll(pageable);
     }
 
     public Optional<Client> findById(String id){
@@ -37,5 +39,9 @@ public class ClientService {
 
     public void removeAllClients(){
         clientRepository.deleteAll();
+    }
+
+    public Page<Client> findByUsername(String username, Pageable pageable) {
+        return clientRepository.findByUsernameContaining(username,pageable);
     }
 }
