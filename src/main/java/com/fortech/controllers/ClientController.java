@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import com.fortech.models.Client;
+import com.fortech.controllers.Response;
 import com.fortech.services.ClientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,7 @@ public class ClientController {
     @GetMapping("/clients")
     public ResponseEntity<Map<String, Object>> getAllClients(
             @RequestParam(required = false) String username,
+            //add cars param filter
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size
     ) {
@@ -40,17 +42,15 @@ public class ClientController {
             if(username==null){
                 pageClients = clientService.findAll(paging);
             }else{
+                //findBy (filters,paging)
                 pageClients = clientService.findByUsername(username,paging);
             }
             clients = pageClients.getContent();
-
-            Map<String, Object> response = new HashMap<>();
-            response.put("clients", clients);
-            response.put("currentPage", pageClients.getNumber());
-            response.put("totalItems", pageClients.getTotalElements());
-            response.put("totalPages", pageClients.getTotalPages());
-
-            return new ResponseEntity<>(response, HttpStatus.OK);
+            //Create function createResponse()
+            // Return a new Class instance rather than map
+            Response response = new Response(clients,pageClients.getTotalPages(),pageClients.getTotalElements(),pageClients.getNumber());
+            //
+            return new ResponseEntity(response, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.info("Couldn't find clients ", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

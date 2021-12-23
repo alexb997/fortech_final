@@ -13,6 +13,8 @@ public class Client {
 
     private String username;
     private List<Car> ownedCars;
+    private Long phone;
+    private String address;
 
     public Client(){}
 
@@ -20,9 +22,11 @@ public class Client {
         this.username = username;
     }
 
-    public Client(String username, List<Car> ownedCars) {
+    public Client(String username, List<Car> ownedCars, Long phone, String address) {
         this.username = username;
         this.ownedCars = ownedCars;
+        this.phone = phone;
+        this.address = address;
     }
 
     public String getId() {
@@ -45,10 +49,29 @@ public class Client {
         this.ownedCars = ownedCars;
     }
 
+    public Long getPhone() {
+        return phone;
+    }
+
+    public void setPhone(Long phone) {
+        this.phone = phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     @Override
     public String toString() {
-        return "ID:"+ id +'\'' +
-                "This client "+ username +
-                " owns the cars " + ownedCars;
+        return "Client{" +
+                "username='" + username + '\'' +
+                ", ownedCars=" + ownedCars +
+                ", phone=" + phone +
+                ", address='" + address + '\'' +
+                '}';
     }
 }

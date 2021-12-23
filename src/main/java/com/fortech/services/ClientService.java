@@ -26,7 +26,7 @@ public class ClientService {
     }
 
     public Client addNewClient(Client client) throws IllegalArgumentException{
-        return clientRepository.save(new Client(client.getUsername()));
+        return clientRepository.save(new Client(client.getUsername(),client.getOwnedCars(), client.getPhone(), client.getAddress()));
     }
 
     public Client updateClient(Client client){
