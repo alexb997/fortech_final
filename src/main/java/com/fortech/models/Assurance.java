@@ -2,8 +2,6 @@ package com.fortech.models;
 
 import org.springframework.data.annotation.Id;
 
-import java.time.Period;
-
 public class Assurance {
     @Id
     private String id;
@@ -11,18 +9,19 @@ public class Assurance {
     private String title;
     private String description;
 
-    private Period defaultPeriod;
+    private Integer defaultPeriod;
 
     public Assurance() {
     }
 
-    public Assurance(String title, String description, Period defaultPeriod) {
+    public Assurance(String title, String description, Integer defaultPeriod) {
         this.title = title;
         this.description = description;
         this.defaultPeriod = defaultPeriod;
     }
 
     public Assurance(Assurance assurance){
+        this.id= assurance.getId();
         this.title = assurance.getTitle();
         this.description = assurance.getDescription();
         this.defaultPeriod = assurance.getDefaultPeriod();
@@ -48,11 +47,11 @@ public class Assurance {
         this.description = description;
     }
 
-    public Period getDefaultPeriod() {
+    public Integer getDefaultPeriod() {
         return defaultPeriod;
     }
 
-    public void setDefaultPeriod(Period defaultPeriod) {
+    public void setDefaultPeriod(Integer defaultPeriod) {
         this.defaultPeriod = defaultPeriod;
     }
 
