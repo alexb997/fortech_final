@@ -2,11 +2,15 @@ package com.fortech.services;
 
 import com.fortech.models.Client;
 import com.fortech.repository.ClientRepository;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -41,7 +45,9 @@ public class ClientService {
         clientRepository.deleteAll();
     }
 
-    public Page<Client> findByUsername(String username, Pageable pageable) {
-        return clientRepository.findByUsernameContaining(username,pageable);
+    public Page<Client> findByFilters(String username, String address , Long phone , Pageable pageable) {
+        return clientRepository.findBy(username,address,phone,pageable);
     }
+
+
 }

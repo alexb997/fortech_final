@@ -30,6 +30,8 @@ public class ClientController {
     @GetMapping("/clients")
     public ResponseEntity<Map<String, Object>> getAllClients(
             @RequestParam(required = false) String username,
+            @RequestParam(required = false) String address,
+            @RequestParam(required = false) Long phone,
             //add cars param filter
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size
@@ -40,19 +42,19 @@ public class ClientController {
 
             Page<Client> pageClients;
             if(username==null){
-                pageClients = clientService.findAll(paging);
-            }else{
-                //findBy (filters,paging)
-                pageClients = clientService.findByUsername(username,paging);
+                if(address==null){
+                    if(phone==null){
+                        pageClients = clientService.findAll(paging);
+                    }else{
+                        pageClients = ClientService.findBy(phone,paging)
+                    }
+                }
             }
             clients = pageClients.getContent();
-            //Create function createResponse()
-            // Return a new Class instance rather than map
             Response response = new Response(clients,pageClients.getTotalPages(),pageClients.getTotalElements(),pageClients.getNumber());
-            //
             return new ResponseEntity(response, HttpStatus.OK);
         } catch (Exception e) {
-            LOGGER.info("Couldn't find clients ", e);
+            LOGGER.error("Couldn't find clients ", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -69,10 +71,10 @@ public class ClientController {
             Client newClient = clientService.addNewClient(client);
             return new ResponseEntity<>(newClient, HttpStatus.CREATED);
         }catch (IllegalArgumentException e){
-            LOGGER.info("Couldn't create client ", e);
+            LOGGER.error("Couldn't create client ", e);
             return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
         } catch (Exception e) {
-            LOGGER.info("Couldn't create client ", e);
+            LOGGER.error("Couldn't create client ", e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -97,7 +99,7 @@ public class ClientController {
             clientService.removeClientById(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
-            LOGGER.info("Removal of client didn't work ", e);
+            LOGGER.error("Removal of client didn't work ", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -108,7 +110,7 @@ public class ClientController {
             clientService.removeAllClients();
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
-            LOGGER.info("Removal of clients didn't work ", e);
+            LOGGER.error("Removal of clients didn't work ", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
