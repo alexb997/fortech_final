@@ -12,9 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public interface ClientRepository extends PagingAndSortingRepository<Client, String> {
+public interface ClientRepository extends PagingAndSortingRepository<Client, String> ,CustomClientRepository {
 
 //    Page<Client> findByUsernameContaining(String username, Pageable pageable);
 //    Page<Client> findByFilters(String username,String address, Long phone , Pageable pageable);
-    Page<Client> findBy(, Pageable pageable);
 }

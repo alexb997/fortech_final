@@ -40,19 +40,14 @@ public class ClientController {
             List<Client> clients;
             Pageable paging = PageRequest.of(page, size);
 
-            Page<Client> pageClients;
-            if(username==null){
-                if(address==null){
-                    if(phone==null){
-                        pageClients = clientService.findAll(paging);
-                    }else{
-                        pageClients = ClientService.findBy(phone,paging)
-                    }
-                }
-            }
-            clients = pageClients.getContent();
-            Response response = new Response(clients,pageClients.getTotalPages(),pageClients.getTotalElements(),pageClients.getNumber());
-            return new ResponseEntity(response, HttpStatus.OK);
+//            Page<Client> pageClients;
+//            pageClients = clientService.findAll(paging);
+
+//            clients = pageClients.getContent();
+//            Response response = new Response(clients,pageClients.getTotalPages(),pageClients.getTotalElements(),pageClients.getNumber());
+//            return new ResponseEntity(response, HttpStatus.OK);
+            clients = clientService.findByFilters(username,address,paging);
+            return new ResponseEntity(clients, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error("Couldn't find clients ", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
