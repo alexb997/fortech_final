@@ -45,8 +45,8 @@ public class ClientService {
         clientRepository.deleteAll();
     }
 
-    public List<Client> findByFilters(String username, String address, Pageable pageable) {
-        return clientRepository.findBy(username,address,pageable);
+    public Page<Client> findBy(String username,String address, Pageable pageable) {
+        return clientRepository.findByUsernameAndAddress(username,address,pageable);
     }
 
 

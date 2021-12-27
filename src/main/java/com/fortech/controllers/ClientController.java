@@ -31,7 +31,6 @@ public class ClientController {
     public ResponseEntity<Map<String, Object>> getAllClients(
             @RequestParam(required = false) String username,
             @RequestParam(required = false) String address,
-            @RequestParam(required = false) Long phone,
             //add cars param filter
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size
@@ -40,14 +39,17 @@ public class ClientController {
             List<Client> clients;
             Pageable paging = PageRequest.of(page, size);
 
-//            Page<Client> pageClients;
-//            pageClients = clientService.findAll(paging);
-
-//            clients = pageClients.getContent();
-//            Response response = new Response(clients,pageClients.getTotalPages(),pageClients.getTotalElements(),pageClients.getNumber());
-//            return new ResponseEntity(response, HttpStatus.OK);
-            clients = clientService.findByFilters(username,address,paging);
-            return new ResponseEntity(clients, HttpStatus.OK);
+            Page<Client> pageClients;
+            if(username==null && address==null){
+                pageClients=clientService.findAll(paging);
+            }else {
+                pageClients = clientService.findBy(username, address, paging);
+            }
+            clients = pageClients.getContent();
+            Response response = new Response(clients,pageClients.getTotalPages(),pageClients.getTotalElements(),pageClients.getNumber());
+            return new ResponseEntity(response, HttpStatus.OK);
+//            clients = clientService.findBy(username,address,paging);
+//            return new ResponseEntity(clients, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error("Couldn't find clients ", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
