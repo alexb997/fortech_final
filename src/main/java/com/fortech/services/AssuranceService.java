@@ -2,6 +2,8 @@ package com.fortech.services;
 
 import com.fortech.models.Assurance;
 import com.fortech.repository.AssuranceRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +18,8 @@ public class AssuranceService {
         this.assuranceRepository = assuranceRepository;
     }
 
-    public List<Assurance> findAll(){
-        return assuranceRepository.findAll();
+    public Page<Assurance> findAll(Pageable pageable){
+        return assuranceRepository.findAll(pageable);
     }
 
     public Optional<Assurance> findById(String id){

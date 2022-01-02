@@ -1,9 +1,13 @@
 package com.fortech.controllers;
 
 import com.fortech.models.Assurance;
+import com.fortech.models.Car;
 import com.fortech.services.AssuranceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +29,22 @@ public class AssuranceController {
     }
 
     @GetMapping("/plans")
-    public ResponseEntity<List<Assurance>> getAllAssurances() {
+    public ResponseEntity<List<Assurance>> getAllAssurances(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
         try {
             List<Assurance> assurances;
-            assurances = assuranceService.findAll();
-            return new ResponseEntity<>(assurances, HttpStatus.OK);
+            Pageable paging = PageRequest.of(page, size);
+
+            //Change from Assurance to insurance everywhere
+            Page<Assurance> pageInsurances;
+            pageInsurances = assuranceService.findAll(paging);
+            assurances= pageInsurances.getContent();
+            Response response = new Response(assurances,pageInsurances.getTotalPages(),pageInsurances.getTotalElements(),pageInsurances.getNumber());
+            return new ResponseEntity(response, HttpStatus.OK);
         } catch (Exception e) {
-            LOGGER.info("Couldn't find assurance plans ", e);
+            //Change to Logger.error from .info
+            LOGGER.error("Couldn't find assurance plans ", e);
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

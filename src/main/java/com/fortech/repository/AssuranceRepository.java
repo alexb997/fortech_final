@@ -1,10 +1,10 @@
 package com.fortech.repository;
 
 import com.fortech.models.Assurance;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AssuranceRepository  extends MongoRepository<Assurance, String> {
+public interface AssuranceRepository  extends PagingAndSortingRepository<Assurance, String> {
 
 }
