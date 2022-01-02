@@ -22,8 +22,10 @@ public class CarService {
         return carRepository.findAll(pageable);
     }
     public Page<Car> findBy(String keyword,Pageable pageable){
+        //To be checked and handle null keyword
         return carRepository.findAllByBrandMatchesRegexOrNameMatchesRegexOrKindMatchesRegex(keyword,keyword,keyword,pageable);
     }
+    //findByBrand...
 
     public Optional<Car> findById(String id){
         return carRepository.findById(id);

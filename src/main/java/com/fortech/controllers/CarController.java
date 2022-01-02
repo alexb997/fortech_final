@@ -2,6 +2,7 @@ package com.fortech.controllers;
 
 import com.fortech.models.Car;
 import com.fortech.services.CarService;
+import com.fortech.validators.CarValidator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -36,7 +37,7 @@ public class CarController {
             Pageable paging = PageRequest.of(page, size);
 
             Page<Car> pageCars;
-            if(keyword==null) {
+            if(keyword==null || keyword.isEmpty()) {
                 pageCars = carService.findAll(paging);
             }else{
                 pageCars = carService.findBy(keyword,paging);
@@ -60,12 +61,10 @@ public class CarController {
     public ResponseEntity<Car> createCar(@RequestBody Car car) {
         try {
             Car newCar = carService.addNewCar(car);
-            if( car.getKind() == null || car.getKind().isEmpty()
-                    || car.getBrand() == null || car.getBrand().isEmpty()
-                    || car.getName() == null || car.getName().isEmpty()) {
-                return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            if(CarValidator.isValid(car)) {
+                return new ResponseEntity<>(newCar, HttpStatus.CREATED);
             }
-            return new ResponseEntity<>(newCar, HttpStatus.CREATED);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
             LOGGER.info("Couldn't create car!",e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
