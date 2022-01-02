@@ -14,9 +14,17 @@ public class Client {
     private String id;
 
     private String username;
-    private List<Car> ownedCars;
+    private List<OwnedCar> ownedCars;
     private Long phone;
     private String address;
+    //Check details needed for insurance plans and add
+    //
+//    Personal information -ok
+//    Information about your driving history -how to show a file, docx or pdf kind....
+//    Vehicle information- ownedCar stuff
+//    Banking information- probably i'll just put 3 criterias: low, balanced, high to not go in details
+//    Supplemental information to qualify for discounts -Discounts?
+
 
     public Client(){}
 
@@ -24,7 +32,7 @@ public class Client {
         this.username = username;
     }
 
-    public Client(String username, List<Car> ownedCars, Long phone, String address) {
+    public Client(String username, List<OwnedCar> ownedCars, Long phone, String address) {
         this.username = username;
         this.ownedCars = ownedCars;
         this.phone = phone;
@@ -43,11 +51,11 @@ public class Client {
         this.username = username;
     }
 
-    public List<Car> getOwnedCars() {
+    public List<OwnedCar> getOwnedCars() {
         return ownedCars;
     }
 
-    public void setOwnedCars(List<Car> ownedCars) {
+    public void setOwnedCars(List<OwnedCar> ownedCars) {
         this.ownedCars = ownedCars;
     }
 

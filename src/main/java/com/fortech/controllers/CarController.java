@@ -1,7 +1,6 @@
 package com.fortech.controllers;
 
 import com.fortech.models.Car;
-import com.fortech.models.Client;
 import com.fortech.services.CarService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,7 +28,7 @@ public class CarController {
     }
 
     @GetMapping("/cars")
-    public ResponseEntity<List<Car>> getAllCars(@RequestParam(required = false) String manufacturer,
+    public ResponseEntity<List<Car>> getAllCars(@RequestParam(required = false) String keyword,
                                                 @RequestParam(defaultValue = "0") int page,
                                                 @RequestParam(defaultValue = "3") int size) {
         try {
@@ -37,10 +36,10 @@ public class CarController {
             Pageable paging = PageRequest.of(page, size);
 
             Page<Car> pageCars;
-            if(manufacturer==null) {
+            if(keyword==null) {
                 pageCars = carService.findAll(paging);
             }else{
-                pageCars = carService.findByManufacturer(manufacturer,paging);
+                pageCars = carService.findBy(keyword,paging);
             }
             cars = pageCars.getContent();
             Response response = new Response(cars,pageCars.getTotalPages(),pageCars.getTotalElements(),pageCars.getNumber());
@@ -61,8 +60,9 @@ public class CarController {
     public ResponseEntity<Car> createCar(@RequestBody Car car) {
         try {
             Car newCar = carService.addNewCar(car);
-            if(car.getPlate() != null && !car.getPlate().isEmpty()
-                    && car.getManufacturer() != null && !car.getManufacturer().isEmpty()) {
+            if( car.getKind() == null || car.getKind().isEmpty()
+                    || car.getBrand() == null || car.getBrand().isEmpty()
+                    || car.getName() == null || car.getName().isEmpty()) {
                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             }
             return new ResponseEntity<>(newCar, HttpStatus.CREATED);
@@ -78,8 +78,9 @@ public class CarController {
 
         if (carData.isPresent()) {
             Car newCar = carData.get();
-            newCar.setPlate(car.getPlate());
-            newCar.setManufacturer(car.getManufacturer());
+            newCar.setName(car.getName());
+            newCar.setBrand(car.getBrand());
+            newCar.setKind(car.getKind());
             return new ResponseEntity<>(carService.updateCar(newCar), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

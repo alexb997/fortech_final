@@ -8,41 +8,56 @@ public class Car {
 
     @Id
     private String id;
+    private String name;
+    private String kind;
+    private String brand;
+    //type is a taken keyword in mongo, believe it expects a object
+    //add manufacturer icon Ex: Ferrari
+    //Maybe a ENUM with type of cars?
+    //Try add image
 
-    private String plate;
-    private String manufacturer;
+    //add details - are they needed?
 
     public Car(){}
 
-    public Car(String plate,String manufacturer) {
-        this.plate = plate;
-        this.manufacturer = manufacturer;
+    public Car(String name, String brand, String kind) {
+        this.name = name;
+        this.brand = brand;
+        this.kind = kind;
     }
 
     public String getId() {
         return id;
     }
 
-    public String getPlate() {
-        return plate;
+    public String getName() {
+        return name;
     }
 
-    public void setPlate(String plate) {
-        this.plate = plate;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getManufacturer() {
-        return manufacturer;
+    public String getBrand() {
+        return brand;
     }
 
-    public void setManufacturer(String manufacturer) {
-        this.manufacturer = manufacturer;
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getKind() {
+        return kind;
+    }
+
+    public void setKind(String kind) {
+        this.kind = kind;
     }
 
     @Override
     public String toString() {
         return "ID:"+ id +'\'' +
-                "The car with plate number " + plate +
-                ", manufactured by " + manufacturer;
+                "The car by type "+ kind +
+                ", brand " + brand;
     }
 }

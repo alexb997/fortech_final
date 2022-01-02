@@ -21,8 +21,8 @@ public class CarService {
     public Page<Car> findAll(Pageable pageable){
         return carRepository.findAll(pageable);
     }
-    public Page<Car> findByManufacturer(String manufacturer,Pageable pageable){
-        return carRepository.findByManufacturerContaining(manufacturer,pageable);
+    public Page<Car> findBy(String keyword,Pageable pageable){
+        return carRepository.findByBrandOrName(keyword,pageable);
     }
 
     public Optional<Car> findById(String id){
