@@ -17,6 +17,7 @@ public class Client {
     private List<OwnedCar> ownedCars;
     private Long phone;
     private String address;
+    private String banking;
     //Check details needed for insurance plans and add
     //
 //    Personal information -ok
@@ -32,11 +33,12 @@ public class Client {
         this.username = username;
     }
 
-    public Client(String username, List<OwnedCar> ownedCars, Long phone, String address) {
+    public Client(String username, List<OwnedCar> ownedCars, Long phone, String address, String banking) {
         this.username = username;
         this.ownedCars = ownedCars;
         this.phone = phone;
         this.address = address;
+        this.banking = banking;
     }
 
     public String getId() {
@@ -73,6 +75,14 @@ public class Client {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getBanking() {
+        return banking;
+    }
+
+    public void setBanking(String banking) {
+        this.banking = banking;
     }
 
     @Override

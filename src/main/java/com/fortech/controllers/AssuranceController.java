@@ -1,7 +1,6 @@
 package com.fortech.controllers;
 
 import com.fortech.models.Assurance;
-import com.fortech.models.Car;
 import com.fortech.services.AssuranceService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +43,7 @@ public class AssuranceController {
             return new ResponseEntity(response, HttpStatus.OK);
         } catch (Exception e) {
             //Change to Logger.error from .info
-            LOGGER.error("Couldn't find assurance plans ", e);
+            LOGGER.error("Couldn't find insurance plans ", e);
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

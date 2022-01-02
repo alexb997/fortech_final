@@ -22,7 +22,7 @@ public class CarService {
         return carRepository.findAll(pageable);
     }
     public Page<Car> findBy(String keyword,Pageable pageable){
-        return carRepository.findByBrandOrName(keyword,pageable);
+        return carRepository.findAllByBrandMatchesRegexOrNameMatchesRegexOrKindMatchesRegex(keyword,keyword,keyword,pageable);
     }
 
     public Optional<Car> findById(String id){

@@ -18,8 +18,8 @@ public class OwnedCar extends Car{
         this.VIN = VIN;
     }
 
-    public OwnedCar(String name, String brand,String type, String plate, Assurance chosenAssurance) {
-        super(name, brand, type);
+    public OwnedCar(String name, String brand,String kind, String plate, Assurance chosenAssurance) {
+        super(name, brand, kind);
         this.plate = plate;
         this.chosenAssurance = chosenAssurance;
     }
