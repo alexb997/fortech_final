@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ClientRepository extends PagingAndSortingRepository<Client, String> {
 
-    Page<Client> findByUsernameOrAddressContaining(String username,String address,Pageable pageable);
+    Page<Client> findByUsernameMatchesRegexOrAddressMatchesRegex(String username,String address,Pageable pageable);
 }

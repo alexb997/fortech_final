@@ -29,8 +29,7 @@ public class ClientController {
 
     @GetMapping("/clients")
     public ResponseEntity<Map<String, Object>> getAllClients(
-            @RequestParam(required = false) String username,
-            @RequestParam(required = false) String address,
+            @RequestParam(required = false) String keyword,
             //add cars param filter
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size
@@ -40,10 +39,10 @@ public class ClientController {
             Pageable paging = PageRequest.of(page, size);
 
             Page<Client> pageClients;
-            if(username==null && address==null){
+            if(keyword==null){
                 pageClients=clientService.findAll(paging);
             }else {
-                pageClients = clientService.findBy(username, address, paging);
+                pageClients = clientService.findBy(keyword, paging);
             }
             clients = pageClients.getContent();
             Response response = new Response(clients,pageClients.getTotalPages(),pageClients.getTotalElements(),pageClients.getNumber());

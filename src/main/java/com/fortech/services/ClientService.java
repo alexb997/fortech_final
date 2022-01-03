@@ -40,7 +40,7 @@ public class ClientService {
         clientRepository.deleteAll();
     }
 
-    public Page<Client> findBy(String username,String address, Pageable pageable) {
-        return clientRepository.findByUsernameOrAddressContaining(username,address,pageable);
+    public Page<Client> findBy(String keyword, Pageable pageable) {
+        return clientRepository.findByUsernameMatchesRegexOrAddressMatchesRegex(keyword,keyword,pageable);
     }
 }
