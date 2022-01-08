@@ -29,7 +29,9 @@ public class CarController {
     }
 
     @GetMapping("/cars")
-    public ResponseEntity<List<Car>> getAllCars(@RequestParam(required = false) String keyword,
+    public ResponseEntity<List<Car>> getAllCars(
+                                                @RequestParam(required = false) String by,
+                                                @RequestParam(required = false) String keyword,
                                                 @RequestParam(defaultValue = "0") int page,
                                                 @RequestParam(defaultValue = "3") int size) {
         try {
@@ -40,7 +42,11 @@ public class CarController {
             if(keyword==null || keyword.isEmpty()) {
                 pageCars = carService.findAll(paging);
             }else{
-                pageCars = carService.findBy(keyword,paging);
+                if( by==null || by.isEmpty() ){
+                    pageCars = carService.findBy(keyword,paging);
+                }else{
+                    pageCars= carService.findSome(by,keyword,paging);
+                }
             }
             cars = pageCars.getContent();
             Response response = new Response(cars,pageCars.getTotalPages(),pageCars.getTotalElements(),pageCars.getNumber());
@@ -121,5 +127,6 @@ public class CarController {
 //            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 //        }
 //    }
+
 
 }

@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,10 +21,12 @@ public class CarService {
         return carRepository.findAll(pageable);
     }
     public Page<Car> findBy(String keyword,Pageable pageable){
-        //To be checked and handle null keyword
         return carRepository.findAllByBrandMatchesRegexOrNameMatchesRegexOrKindMatchesRegex(keyword,keyword,keyword,pageable);
     }
-    //findByBrand...
+    public Page<Car> findSome(String by,String keyword,Pageable pageable){
+        return handleBy(by,keyword,pageable);
+    }
+
 
     public Optional<Car> findById(String id){
         return carRepository.findById(id);
@@ -45,5 +46,16 @@ public class CarService {
 
     public void removeAllCars(){
         carRepository.deleteAll();
+    }
+
+    private Page<Car> handleBy( String by, String keyword, Pageable pageable){
+        switch (by){
+            case "type":
+                return carRepository.findAllByKindMatchesRegex(keyword,pageable);
+            case "brand":
+                return carRepository.findAllByBrandMatchesRegex(keyword,pageable);
+            default:
+                return carRepository.findAllByNameMatchesRegex(keyword,pageable);
+        }
     }
 }

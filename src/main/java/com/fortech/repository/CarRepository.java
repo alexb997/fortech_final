@@ -9,4 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CarRepository extends PagingAndSortingRepository<Car, String> {
     Page<Car> findAllByBrandMatchesRegexOrNameMatchesRegexOrKindMatchesRegex(String brand,String name,String kind, Pageable pageable);
+    Page<Car> findAllByKindMatchesRegex(String keyword, Pageable pageable);
+    Page<Car> findAllByBrandMatchesRegex(String keyword, Pageable pageable);
+    Page<Car> findAllByNameMatchesRegex(String keyword, Pageable pageable);
+
 }
