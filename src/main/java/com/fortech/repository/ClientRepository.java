@@ -8,8 +8,11 @@ import com.fortech.models.Client;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface ClientRepository extends PagingAndSortingRepository<Client, String> {
 
     Page<Client> findByUsernameMatchesRegexOrAddressMatchesRegex(String username,String address,Pageable pageable);
+    Optional<Client> findClientByUsername(String username);
 }

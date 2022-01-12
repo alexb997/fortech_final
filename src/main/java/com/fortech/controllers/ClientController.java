@@ -61,6 +61,12 @@ public class ClientController {
         return clientData.map(client -> new ResponseEntity<>(client, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("/client/{username}")
+    public ResponseEntity<Client> getFakeLogin(@PathVariable("username") String username) {
+        Optional<Client> clientData = clientService.findByUsername(username);
+        return clientData.map(client -> new ResponseEntity<>(client, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
     @PostMapping("/clients")
     public ResponseEntity<Client> createClient(@RequestBody Client client) {
         try {

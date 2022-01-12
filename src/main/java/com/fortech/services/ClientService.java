@@ -40,6 +40,10 @@ public class ClientService {
         clientRepository.deleteAll();
     }
 
+    public Optional<Client> findByUsername(String username){
+         return clientRepository.findClientByUsername(username);
+    };
+
     public Page<Client> findBy(String keyword, Pageable pageable) {
         return clientRepository.findByUsernameMatchesRegexOrAddressMatchesRegex(keyword,keyword,pageable);
     }

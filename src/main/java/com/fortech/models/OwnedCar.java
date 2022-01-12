@@ -2,42 +2,32 @@ package com.fortech.models;
 
 public class OwnedCar extends Car{
     private String plate;
-    private String VIN;
     //each car can have its own different assurancePlan-> to be checked
-    private Assurance chosenAssurance;
+    private Boolean assured;
     //Check what else is needed... Car status or details like km on board...
 
     //Probably this one i'll use, but in case i mess up i'll use the other.
-    public OwnedCar(Car car, String plate, Assurance chosenAssurance, String VIN) {
+    public OwnedCar(Car car, String plate, Boolean assured) {
         //think, makes new instance of OwnedCar so think this is right: will check later
         this.setName(car.getName());
         this.setKind(car.getKind());
         this.setBrand(car.getBrand());
         this.plate = plate;
-        this.chosenAssurance = chosenAssurance;
-        this.VIN = VIN;
+        this.assured = assured;
     }
 
-    public OwnedCar(String name, String brand,String kind, String plate, Assurance chosenAssurance) {
+    public OwnedCar(String name, String brand,String kind, String plate, Boolean assured) {
         super(name, brand, kind);
         this.plate = plate;
-        this.chosenAssurance = chosenAssurance;
+        this.assured = assured;
     }
 
-    public String getVIN() {
-        return VIN;
+    public Boolean isAssured() {
+        return assured;
     }
 
-    public void setVIN(String VIN) {
-        this.VIN = VIN;
-    }
-
-    public Assurance getChosenAssurance() {
-        return chosenAssurance;
-    }
-
-    public void setChosenAssurance(Assurance chosenAssurance) {
-        this.chosenAssurance = chosenAssurance;
+    public void setAssured(Boolean assured) {
+        this.assured = assured;
     }
 
     public String getPlate() {
