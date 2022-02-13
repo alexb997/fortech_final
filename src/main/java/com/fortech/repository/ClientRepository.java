@@ -15,4 +15,6 @@ public interface ClientRepository extends PagingAndSortingRepository<Client, Str
 
     Page<Client> findByUsernameMatchesRegexOrAddressMatchesRegex(String username,String address,Pageable pageable);
     Optional<Client> findClientByUsername(String username);
+    Page<Client> findByAddress(String address);
+    Page<Client> findByBanking(String address);
 }

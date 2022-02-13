@@ -18,14 +18,6 @@ public class Client {
     private Long phone;
     private String address;
     private String banking;
-    //Check details needed for insurance plans and add
-    //
-//    Personal information -ok
-//    Information about your driving history -how to show a file, docx or pdf kind....
-//    Vehicle information- ownedCar stuff
-//    Banking information- probably i'll just put 3 criterias: low, balanced, high to not go in details
-//    Supplemental information to qualify for discounts -Discounts?
-
 
     public Client(){}
 

@@ -114,19 +114,4 @@ public class CarController {
         }
     }
 
-//    @GetMapping("/cars/assured")
-//    public ResponseEntity<List<Car>> findByAssured(@RequestParam boolean assured) {
-//        try {
-//            List<Car> cars = carService.findByAssurance(assured);
-//            if (cars.isEmpty()) {
-//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//            }
-//            return new ResponseEntity<>(cars, HttpStatus.OK);
-//        } catch (Exception e) {
-//            LOGGER.info("Couldn't find searched cars",e);
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
-
-
 }

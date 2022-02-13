@@ -4,7 +4,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import com.fortech.models.Client;
-import com.fortech.controllers.Response;
 import com.fortech.services.ClientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,7 +29,6 @@ public class ClientController {
     @GetMapping("/clients")
     public ResponseEntity<Map<String, Object>> getAllClients(
             @RequestParam(required = false) String keyword,
-            //add cars param filter
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "3") int size
     ) {
@@ -47,8 +45,6 @@ public class ClientController {
             clients = pageClients.getContent();
             Response response = new Response(clients,pageClients.getTotalPages(),pageClients.getTotalElements(),pageClients.getNumber());
             return new ResponseEntity(response, HttpStatus.OK);
-//            clients = clientService.findBy(username,address,paging);
-//            return new ResponseEntity(clients, HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error("Couldn't find clients ", e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -116,4 +112,6 @@ public class ClientController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    //Clear Owned cars api's
 }

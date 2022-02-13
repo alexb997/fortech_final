@@ -64,4 +64,6 @@ public class Assurance {
                 ", defaultPeriod=" + defaultPeriod +
                 '}';
     }
+
+    //To be cleared after finishing ownedCars functionality
 }
