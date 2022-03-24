@@ -14,7 +14,7 @@ public class Client {
     private String id;
 
     private String username;
-    private List<OwnedCar> ownedCars;
+    private List<String> ownedCars;
     private Long phone;
     private String address;
     private String banking;
@@ -25,7 +25,7 @@ public class Client {
         this.username = username;
     }
 
-    public Client(String username, List<OwnedCar> ownedCars, Long phone, String address, String banking) {
+    public Client(String username, List<String> ownedCars, Long phone, String address, String banking) {
         this.username = username;
         this.ownedCars = ownedCars;
         this.phone = phone;
@@ -45,11 +45,11 @@ public class Client {
         this.username = username;
     }
 
-    public List<OwnedCar> getOwnedCars() {
+    public List<String> getOwnedCars() {
         return ownedCars;
     }
 
-    public void setOwnedCars(List<OwnedCar> ownedCars) {
+    public void setOwnedCars(List<String> ownedCars) {
         this.ownedCars = ownedCars;
     }
 
@@ -84,6 +84,7 @@ public class Client {
                 ", ownedCars=" + ownedCars +
                 ", phone=" + phone +
                 ", address='" + address + '\'' +
+                ", banking='" + banking + '\'' +
                 '}';
     }
 }

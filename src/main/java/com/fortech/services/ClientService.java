@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Service
@@ -25,7 +26,12 @@ public class ClientService {
     }
 
     public Client addNewClient(Client client) throws IllegalArgumentException{
-        return clientRepository.save(new Client(client.getUsername(),client.getOwnedCars(), client.getPhone(), client.getAddress(),client.getBanking()));
+        ArrayList<String> ownedCars = new ArrayList<String>() {{
+            add("car1");
+            add("car2");
+            add("car3");
+        }};
+        return clientRepository.save(new Client(client.getUsername(), ownedCars, client.getPhone(), client.getAddress(),client.getBanking()));
     }
 
     public Client updateClient(Client client){
