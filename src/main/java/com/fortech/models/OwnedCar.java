@@ -13,7 +13,10 @@ public class OwnedCar extends Car{
     }
 
     public OwnedCar(String name, String brand,String kind, String imageURL, String plate, Boolean assured) {
-        super(name, brand, kind, imageURL);
+        this.setName(name);
+        this.setKind(kind);
+        this.setBrand(brand);
+        this.setImageURL(imageURL);
         this.plate = plate;
         this.assured = assured;
     }

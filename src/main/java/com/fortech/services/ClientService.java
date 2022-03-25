@@ -1,6 +1,7 @@
 package com.fortech.services;
 
 import com.fortech.models.Client;
+import com.fortech.models.OwnedCar;
 import com.fortech.repository.ClientRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
@@ -26,10 +27,10 @@ public class ClientService {
     }
 
     public Client addNewClient(Client client) throws IllegalArgumentException{
-        ArrayList<String> ownedCars = new ArrayList<String>() {{
-            add("car1");
-            add("car2");
-            add("car3");
+        ArrayList<OwnedCar> ownedCars = new ArrayList<OwnedCar>() {{
+            add(new OwnedCar("car1", "Toyota","sport", "link", "PlateID1", false));
+            add(new OwnedCar("car2", "Dacia","bus", "link", "PlateID2", false));
+            add(new OwnedCar("car3", "Jagua","sport", "link", "PlateID3", false));
         }};
         return clientRepository.save(new Client(client.getUsername(), ownedCars, client.getPhone(), client.getAddress(),client.getBanking()));
     }
